@@ -10,28 +10,56 @@ let alertax = ref("")
 let fecha= ref("")
 let prioridad= false
 let prioridadx= ""
+let showalerta=ref(false)
+let showtable=ref(false)
 
 function eliminar(i){
   actividades.value.splice(i,1)
+
+  if(actividades.value.length <= 0){
+    this.showtable=false
+  }
+
 }
 
 
 function agregar() {
-    if (actividad.value=="") {
-        alertax.value="Debe ingresar una actividad";
-    } else if (fecha.value=="") {
-        alertax.value="Debe ingresar una fecha";
-    } else {
-        let prioridadx = prioridad ? "alta" : "baja";
+  let control = actividades.value.length;
+  let fechaActual = new Date();
+  let fechaSeleccionada = new Date(fecha.value + "T23:59:59");
 
-        actividades.value.push({
-            actividad: actividad.value,
-            fecha: fecha.value,
-            prioridad: prioridadx
-        });
-        console.log(actividades);
+console.log(fechaActual,"actual")
+console.log(fechaSeleccionada,"delected")
+
+
+
+  if (actividad.value == "") {
+    this.showalerta = true;
+    alertax.value = "Debe ingresar una actividad";
+  } else if (fecha.value == "") {
+    this.showalerta = true;
+    alertax.value = "Debe ingresar una fecha";
+  } else if (fechaSeleccionada < fechaActual) {
+    this.showalerta = true;
+    alertax.value = "La fecha no puede ser anterior a hoy";
+  } else {
+    let prioridadx = prioridad ? "alta" : "baja";
+
+    actividades.value.push({
+      actividad: actividad.value,
+      fecha: fecha.value,
+      prioridad: prioridadx
+    });
+    console.log(actividades);
+    this.showtable = true;
+
+    if (actividades.value.length > control) {
+      actividad.value = "";
+      fecha.value = "";
     }
+  }
 }
+
 
 
 
@@ -44,7 +72,7 @@ function ordenar() {
  
 
 function closeAlert() {
-alertax.value=""
+this.showalerta=false
 }
 
 
@@ -58,8 +86,12 @@ alertax.value=""
 
 <template>
   <div class="contenedor">
+
+    <div class="encabezado">
     <input type="text" placeholder="Ingrese actividad" v-model="actividad" style="width:40vmax;" />
     <input type="date" placeholder="Facha de nacimiento" v-model.trim="fecha" style="width:20vmax;"/>
+
+  </div>
 
     <div class="botones">
       <button @click="agregar()" style="background-color: green; font-size: large;">+</button>
@@ -71,7 +103,7 @@ alertax.value=""
       <button @click="ordenar()">ORDENAR</button>
     </div>
 
-    <table style="margin-top:1vmax;">
+    <table style="margin-top:1vmax;" v-if="showtable">
       <thead>
         <tr>
           <th>Actividad</th>
@@ -85,7 +117,7 @@ alertax.value=""
         <tr
           v-for="(item, i) in actividades"
           :key="i"
-          :style="item.prioridad=='alta'? {backgroundColor:'red' , color:'white'}:{backgroundColor:'blue' , color:'white'">
+          :style="item.prioridad=='alta'? {backgroundColor:'red' , color:'white'}:{backgroundColor:'rgb(212, 84, 84)' , color:'white'}">
           <td>{{ item.actividad }}</td>
           <td>{{ item.prioridad }}</td>
           <td>{{ item.fecha}}</td>
@@ -96,9 +128,10 @@ alertax.value=""
       </tbody>
     </table>
 
-
-    <textarea v-if="alertax" v-model="alertax" style="background-color: salmon; font-size: x-large;"></textarea>
-<button @click="closeAlert()" v-show="alertax"  style="background-color: darkred;"> Aceptar</button>
+<div class="alerta"  style="background-color: rgb(216, 216, 216);" v-if="showalerta">
+     <h3 style="font-size: x-large; color:black"> {{alertax}} 🙄</h3>
+<button @click="closeAlert()" v-show="alertax"  style="background-color: darkred; width:8vmax"> Aceptar</button>
+</div>
   </div>
 </template>
 
@@ -111,7 +144,8 @@ alertax.value=""
 display: flex;
 flex-direction:column;
 width: 70vmax;
-gap: 1vmax;
+gap: 4vmax;
+
 }
 
 .botones{
@@ -129,6 +163,34 @@ display: flex;
 }
 button{
   background-color: rgb(154, 154, 154);
-  
+
 }
+
+.encabezado{
+display: flex;
+flex-direction: column;
+gap: 3vmax;
+margin-bottom: 3vmax;
+box-shadow: 10px 10px 5px rgba(77, 76, 76, 0.76);
+padding: 1vmax;
+width:fit-content;
+}
+.alerta {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vmax;
+  height: 15vmax;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 1px 1px 15px 5px rgba(77, 76, 76, 0.76);
+  padding: 1vmax;
+  border-radius: 3vmax;
+  justify-content: center;
+  gap: 3vmax;
+}
+
+
 </style>
