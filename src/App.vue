@@ -47,7 +47,7 @@ function agregar() {
       prioridad: prioridadx
     });
     console.log(actividades);
-    this.showtable = true;
+    showtable = true;
 
     if (actividades.value.length > control) {
       actividad.value = "";
@@ -190,4 +190,5 @@ width:fit-content;
 
 
 </style>
+
 
