@@ -85,7 +85,7 @@ alertax.value=""
         <tr
           v-for="(item, i) in actividades"
           :key="i"
-          :style="item.prioridad=='alta'? {backgroundColor:'red' , color:'white'}:''">
+          :style="item.prioridad=='alta'? {backgroundColor:'red' , color:'white'}:{backgroundColor:'blue' , color:'white'">
           <td>{{ item.actividad }}</td>
           <td>{{ item.prioridad }}</td>
           <td>{{ item.fecha}}</td>
