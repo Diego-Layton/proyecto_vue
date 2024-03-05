@@ -17,7 +17,7 @@ function eliminar(i){
   actividades.value.splice(i,1)
 
   if(actividades.value.length <= 0){
-    this.showtable=false
+    showtable=false
   }
 
 }
@@ -28,19 +28,15 @@ function agregar() {
   let fechaActual = new Date();
   let fechaSeleccionada = new Date(fecha.value + "T23:59:59");
 
-console.log(fechaActual,"actual")
-console.log(fechaSeleccionada,"delected")
-
-
 
   if (actividad.value == "") {
-    this.showalerta = true;
+    showalerta = true;
     alertax.value = "Debe ingresar una actividad";
   } else if (fecha.value == "") {
-    this.showalerta = true;
+    showalerta = true;
     alertax.value = "Debe ingresar una fecha";
   } else if (fechaSeleccionada < fechaActual) {
-    this.showalerta = true;
+    showalerta = true;
     alertax.value = "La fecha no puede ser anterior a hoy";
   } else {
     let prioridadx = prioridad ? "alta" : "baja";
@@ -72,7 +68,7 @@ function ordenar() {
  
 
 function closeAlert() {
-this.showalerta=false
+showalerta=false
 }
 
 
@@ -194,3 +190,4 @@ width:fit-content;
 
 
 </style>
+
