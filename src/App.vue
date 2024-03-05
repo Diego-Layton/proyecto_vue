@@ -8,7 +8,7 @@ let actividades=ref([]);
 let actividad= ref("")
 let alertax = ref("")
 let fecha= ref("")
-let prioridad= false
+let prioridad= ref(false)
 let prioridadx= ""
 
 function eliminar(i){
