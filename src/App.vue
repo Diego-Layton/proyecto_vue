@@ -8,7 +8,7 @@ let actividades=ref([]);
 let actividad= ref("")
 let alertax = ref("")
 let fecha= ref("")
-let prioridad= ref(false)
+let prioridad= false
 let prioridadx= ""
 
 function eliminar(i){
@@ -17,31 +17,22 @@ function eliminar(i){
 
 
 function agregar() {
+    if (actividad.value=="") {
+        alertax.value="Debe ingresar una actividad";
+    } else if (fecha.value=="") {
+        alertax.value="Debe ingresar una fecha";
+    } else {
+        let prioridadx = prioridad ? "alta" : "baja";
 
-
-
-if (actividad.value=="") {
-alertax.value="Debe ingresar una actividad"
+        actividades.value.push({
+            actividad: actividad.value,
+            fecha: fecha.value,
+            prioridad: prioridadx
+        });
+        console.log(actividades);
+    }
 }
-else if (fecha.value=="") {
-alertax.value="Debe ingresar una fecha"
-}
 
-else{
-
-if (this.prioridad)
-prioridadx="alta"
-else
-prioridadx="baja"
-
-actividades.value.push({
-actividad: actividad.value,
-fecha: fecha.value,
-prioridad: prioridadx
-})
-console.log(actividades);
-
-}}
 
 
 function ordenar() {
