@@ -9,15 +9,15 @@ let actividad= ref("")
 let alertax = ref("")
 let fecha= ref("")
 let prioridad= false
-let prioridadx= ""
-let showalerta=false
+let showalerta=ref(false)
 let showtable=ref(false)
+
 
 function eliminar(i){
   actividades.value.splice(i,1)
 
   if(actividades.value.length <= 0){
-    showtable=false
+    showtable.value=false
   }
 
 }
@@ -30,13 +30,13 @@ function agregar() {
 
 
   if (actividad.value == "") {
-    this.showalerta = true;
+    showalerta.value = true;
     alertax.value = "Debe ingresar una actividad";
   } else if (fecha.value == "") {
-    this.showalerta = true;
+    showalerta.value = true;
     alertax.value = "Debe ingresar una fecha";
   } else if (fechaSeleccionada < fechaActual) {
-    this.showalerta = true;
+    showalerta.value = true;
     alertax.value = "La fecha no puede ser anterior a hoy";
   } else {
     let prioridadx = prioridad ? "alta" : "baja";
@@ -47,7 +47,7 @@ function agregar() {
       prioridad: prioridadx
     });
     console.log(actividades);
-    this.showtable = true;
+    showtable.value = true;
 
     if (actividades.value.length > control) {
       actividad.value = "";
@@ -68,7 +68,7 @@ function ordenar() {
  
 
 function closeAlert() {
-this.showalerta=false
+showalerta.value=false
 }
 
 
@@ -190,4 +190,3 @@ width:fit-content;
 
 
 </style>
-
